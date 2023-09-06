@@ -8,9 +8,18 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import dev.ganeshpc.productservice.dtos.GenericProductDto;
+import dev.ganeshpc.productservice.services.ProductService;
+
 @RestController
 @RequestMapping("/products")
 public class ProductController {
+
+    private ProductService productService;
+
+    ProductController(ProductService productService) {
+        this.productService = productService;
+    }
 
     @GetMapping
     public void getAllProducts() {
@@ -18,8 +27,8 @@ public class ProductController {
     }
 
     @GetMapping("{id}")
-    public String getProductById(@PathVariable("id") Long id) {
-        return "Here is your product id: " + id;
+    public GenericProductDto getProductById(@PathVariable("id") Long id) {
+        return productService.getProductById(id);
     }
 
     @DeleteMapping("{id}")
