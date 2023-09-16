@@ -22,6 +22,7 @@ public class FakeStoreProductDto {
 
     public GenericProductDto toGenericProductDto() {
         GenericProductDto genericProductDto = new GenericProductDto();
+        genericProductDto.setId(id);
         genericProductDto.setTitle(title);
         genericProductDto.setDescription(description);
         genericProductDto.setPrice(price);
