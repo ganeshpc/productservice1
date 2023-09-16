@@ -65,7 +65,7 @@ public class FakeStoreProductService implements ProductService {
     }
 
     @Override
-    public GenericProductDto deleteProduct(Long id) {
+    public GenericProductDto deleteProduct(Long id) throws ProductNotFoundException {
         RestTemplate restTemplate = restTemplateBuilder.build();
 
         RequestCallback requestCallback = restTemplate.acceptHeaderRequestCallback(FakeStoreProductDto.class);
@@ -74,6 +74,21 @@ public class FakeStoreProductService implements ProductService {
         FakeStoreProductDto fakeStoreProductDto = restTemplate
                 .execute(specificProductRequestUrl, HttpMethod.DELETE, requestCallback, responseExtractor, id)
                 .getBody();
+        
+        if (fakeStoreProductDto == null) {
+            throw new ProductNotFoundException("Product with id: " + id + " does'nt exist");
+        }
+
+        return fakeStoreProductDto.toGenericProductDto();
+    }
+
+    @Override
+    public GenericProductDto updateProductById(GenericProductDto genericProductDto) {
+        RestTemplate restTemplate = restTemplateBuilder.build();
+
+        RequestCallback requestCallback = restTemplate.httpEntityCallback(genericProductDto);
+        ResponseExtractor<ResponseEntity<FakeStoreProductDto>> responseExtractor = restTemplate.responseEntityExtractor(FakeStoreProductDto.class); 
+        FakeStoreProductDto fakeStoreProductDto = restTemplate.execute(specificProductRequestUrl, HttpMethod.PUT, requestCallback, responseExtractor, genericProductDto.getId()).getBody();
 
         return fakeStoreProductDto.toGenericProductDto();
     }

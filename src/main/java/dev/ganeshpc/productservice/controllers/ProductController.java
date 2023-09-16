@@ -42,7 +42,7 @@ public class ProductController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<GenericProductDto> deleteProductById(@PathVariable("id") Long id) {
+    public ResponseEntity<GenericProductDto> deleteProductById(@PathVariable("id") Long id) throws ProductNotFoundException {
 
         GenericProductDto genericProduct = productService.deleteProduct(id);
         ResponseEntity<GenericProductDto> response = new ResponseEntity<>(genericProduct, HttpStatus.NOT_FOUND);
@@ -55,9 +55,9 @@ public class ProductController {
     }
 
     @PutMapping("{id}")
-    public void updateProductById() {
-
+    public GenericProductDto updateProductById(@PathVariable("id") Long id, @RequestBody GenericProductDto genericProductDto) {
+        genericProductDto.setId(id);
+        return productService.updateProductById(genericProductDto);
     }
 
-    
 }
