@@ -1,5 +1,6 @@
-package dev.ganeshpc.productservice.dtos;
+package dev.ganeshpc.productservice.thirdpartyclients.productservice.fakestore;
 
+import dev.ganeshpc.productservice.dtos.GenericProductDto;
 import dev.ganeshpc.productservice.models.Category;
 import dev.ganeshpc.productservice.models.Product;
 import lombok.Getter;

@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import dev.ganeshpc.productservice.dtos.ErrorDto;
 import dev.ganeshpc.productservice.dtos.GenericProductDto;
 import dev.ganeshpc.productservice.exception.ProductNotFoundException;
 import dev.ganeshpc.productservice.services.ProductService;
