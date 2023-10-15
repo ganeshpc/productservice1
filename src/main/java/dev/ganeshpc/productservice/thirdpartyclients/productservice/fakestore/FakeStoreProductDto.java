@@ -2,6 +2,7 @@ package dev.ganeshpc.productservice.thirdpartyclients.productservice.fakestore;
 
 import dev.ganeshpc.productservice.dtos.GenericProductDto;
 import dev.ganeshpc.productservice.models.Category;
+import dev.ganeshpc.productservice.models.Price;
 import dev.ganeshpc.productservice.models.Product;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,7 +18,8 @@ public class FakeStoreProductDto {
     private String image;
 
     public Product toProduct() {
-        Product product = new Product(title, description, image, new Category(category), price);
+        Product product = Product.builder().title(title).description(description).image(image)
+                .category(new Category(category)).price(new Price(price)).build();
         return product;
     }
 
