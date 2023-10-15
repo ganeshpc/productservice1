@@ -2,8 +2,8 @@ package dev.ganeshpc.productservice.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import dev.ganeshpc.productservice.models.Category;
+import dev.ganeshpc.productservice.models.Price;
 
-public class CategoryRepository  extends JpaRepository<Category, Long> {
-    
+public interface CategoryRepository extends JpaRepository<Price, Long> {
+
 }
