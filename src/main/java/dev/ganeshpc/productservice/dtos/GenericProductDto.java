@@ -29,7 +29,10 @@ public class GenericProductDto {
 
     public Product toProduct() {
         Product.ProductBuilder productBuilder = Product.builder();
-        productBuilder.title(title).description(description).image(image).category(new Category(category)).price(new Price(price));
-        return productBuilder.build();
+        productBuilder.title(title).description(description).image(image).category(new Category(category))
+                .price(new Price(price));
+        Product product = productBuilder.build();
+        product.setId(id);
+        return product;
     }
 }

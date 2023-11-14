@@ -52,12 +52,19 @@ public class SelfProductServiceImpl implements ProductService {
 
     @Override
     public GenericProductDto deleteProduct(Long id) throws ProductNotFoundException {
-        return null;
+        Optional<Product> optionalProduct = productRepository.findById(id);
+        if (!optionalProduct.isPresent()) {
+            throw new ProductNotFoundException("Product with given id: " + id + " is not present");
+        }
+        productRepository.deleteById(id);
+        return toGenericProductDto(optionalProduct.get());
     }
 
     @Override
     public GenericProductDto updateProductById(GenericProductDto genericProductDto) {
-        return null;
+        Product product = genericProductDto.toProduct();
+        Product updatedProduct = productRepository.save(product);
+        return toGenericProductDto(updatedProduct);
     }
 
     GenericProductDto toGenericProductDto(Product product) {
