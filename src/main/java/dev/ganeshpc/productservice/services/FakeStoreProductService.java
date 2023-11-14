@@ -3,7 +3,6 @@ package dev.ganeshpc.productservice.services;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import dev.ganeshpc.productservice.dtos.GenericProductDto;
@@ -11,8 +10,7 @@ import dev.ganeshpc.productservice.exception.ProductNotFoundException;
 import dev.ganeshpc.productservice.thirdpartyclients.productservice.fakestore.FakeStoreProductDto;
 import dev.ganeshpc.productservice.thirdpartyclients.productservice.fakestore.FakeStoreProductServiceClient;
 
-@Primary
-@Service
+@Service("FakeStoreProductService ")
 public class FakeStoreProductService implements ProductService {
 
     private FakeStoreProductServiceClient fakeStoreProductServiceClient;
