@@ -3,12 +3,15 @@ package dev.ganeshpc.productservice.controllers;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertIterableEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -25,6 +28,9 @@ public class ProductControllerTest {
     @MockBean
     ProductService productService;
 
+    @Captor
+    ArgumentCaptor<GenericProductDto> genericProductDtoCaptor;
+
     GenericProductDto mockGenericProductDto1 = GenericProductDto.builder().id(1L).title("mockTitle")
             .description("mockDescription").price(100).category("mockCategory").build();
 
@@ -32,6 +38,12 @@ public class ProductControllerTest {
             .description("mockDescription").price(100).category("mockCategory").build();
 
     GenericProductDto mockGenericProductDto3 = GenericProductDto.builder().id(3L).title("mockTitle")
+            .description("mockDescription").price(100).category("mockCategory").build();
+
+    GenericProductDto mockGenericProductDtoWithoutId = GenericProductDto.builder().title("mockTitle")
+            .description("mockDescription").price(100).category("mockCategory").build();
+
+    GenericProductDto mockGenericProductDtoWithId = GenericProductDto.builder().id(1L).title("mockTitle")
             .description("mockDescription").price(100).category("mockCategory").build();
 
     @Autowired
@@ -94,6 +106,17 @@ public class ProductControllerTest {
         when(productService.deleteProduct(1L)).thenThrow(ProductNotFoundException.class);
 
         assertThrows(ProductNotFoundException.class, () -> productController.deleteProductById(1L));
+    }
+
+    @Test
+    void shouldCallUpdateByProductIdWithIdAttachedToGenericProductDto() {
+        when(productService.updateProductById(mockGenericProductDtoWithoutId)).thenReturn(mockGenericProductDto1);
+
+        productController.updateProductById(1L, mockGenericProductDtoWithoutId);
+
+        verify(productService).updateProductById(genericProductDtoCaptor.capture());
+
+        assertEquals(1L, genericProductDtoCaptor.getValue().getId());
     }
 
     void genericProductDtoEqualAssertion(GenericProductDto expected, GenericProductDto actual) {
